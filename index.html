@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Preset Jobs — Pro Comms Explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Thumbtack-recognizable palette (approximate — swap for official brand tokens if available) */
+    --tt-blue:#009FD9;
+    --tt-blue-dark:#0A6FA0;
+    --tt-ink:#14140F;
+    --tt-slate:#5A6672;
+    --tt-bg:#F4F7FA;
+    --tt-card:#FFFFFF;
+    --tt-line:#E4EAF0;
+    --tt-yellow:#FFCB45;
+    --c-email:#009FD9;
+    --c-inapp:#6C5CE7;
+    --c-push:#0FA47A;
+    --shadow:0 1px 2px rgba(20,20,15,.04),0 8px 24px rgba(20,20,15,.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--tt-bg);color:var(--tt-ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 20px 80px;}
+  header.hero{background:linear-gradient(135deg,var(--tt-blue) 0%,var(--tt-blue-dark) 100%);color:#fff;border-radius:20px;padding:34px 32px;box-shadow:var(--shadow);}
+  .pin{display:inline-flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.02em;font-size:13px;text-transform:uppercase;opacity:.9;}
+  .pin svg{width:18px;height:18px;}
+  h1{font-size:30px;font-weight:800;margin:10px 0 6px;letter-spacing:-.02em;}
+  .hero p{margin:0;font-size:16px;max-width:640px;opacity:.95;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:26px 0 14px;}
+  .tabs{display:inline-flex;background:#fff;border:1px solid var(--tt-line);border-radius:12px;padding:4px;box-shadow:var(--shadow);}
+  .tab{border:0;background:transparent;font:inherit;font-weight:600;font-size:14px;color:var(--tt-slate);padding:9px 16px;border-radius:9px;cursor:pointer;transition:.15s;}
+  .tab.active{background:var(--tt-blue);color:#fff;}
+  .legend{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:var(--tt-slate);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:11px;height:11px;border-radius:50%;}
+
+  .group-label{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tt-slate);margin:26px 4px 10px;}
+  .card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:16px;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;transition:.15s;}
+  .card.open{border-color:var(--tt-blue);}
+  .card-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;}
+  .num{flex:0 0 auto;width:38px;height:38px;border-radius:11px;background:var(--tt-bg);color:var(--tt-blue);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .card.evergreen .num{background:#F0EEFC;color:var(--c-inapp);}
+  .ttl{flex:1;min-width:0;}
+  .ttl h3{margin:0;font-size:16.5px;font-weight:700;}
+  .ttl .sub{margin:2px 0 0;font-size:13px;color:var(--tt-slate);}
+  .pills{display:flex;gap:6px;flex-wrap:wrap;}
+  .pill{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;color:#fff;white-space:nowrap;}
+  .pill.email{background:var(--c-email);}
+  .pill.inapp{background:var(--c-inapp);}
+  .pill.push{background:var(--c-push);}
+  .caret{flex:0 0 auto;color:var(--tt-slate);transition:.2s;}
+  .card.open .caret{transform:rotate(180deg);}
+  .body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .body-inner{padding:2px 20px 20px 72px;}
+  .row{display:flex;gap:10px;padding:7px 0;border-top:1px dashed var(--tt-line);font-size:14px;}
+  .row:first-child{border-top:0;}
+  .row .k{flex:0 0 96px;font-weight:700;color:var(--tt-slate);font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;padding-top:1px;}
+  .row .v{flex:1;}
+  .v ul{margin:4px 0 0;padding-left:18px;}
+  .v li{margin:3px 0;}
+  .tag{display:inline-block;background:var(--tt-bg);border:1px solid var(--tt-line);border-radius:6px;padding:1px 7px;font-size:12.5px;font-weight:600;margin:2px 4px 2px 0;}
+
+  .panel{background:#fff;border:1px solid var(--tt-line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-top:14px;}
+  .panel h2{font-size:18px;margin:0 0 14px;display:flex;align-items:center;gap:9px;}
+  .panel h2 .bar{width:4px;height:18px;background:var(--tt-blue);border-radius:3px;}
+  .vp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+  .vp{background:var(--tt-bg);border-radius:12px;padding:14px;}
+  .vp b{display:block;font-size:14px;margin-bottom:3px;}
+  .vp span{font-size:13px;color:var(--tt-slate);}
+  .elig{display:flex;flex-wrap:wrap;gap:8px;}
+  .elig .tag{background:#EAF7FC;border-color:#CDEBF7;color:var(--tt-blue-dark);font-size:13px;padding:6px 11px;}
+  .callout{background:#FFF8E6;border:1px solid #FCE9B5;border-radius:12px;padding:14px 16px;font-size:14px;margin-top:8px;}
+  .callout b{color:#9A6B00;}
+  footer{margin-top:30px;font-size:12px;color:var(--tt-slate);text-align:center;line-height:1.6;}
+  .lp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:640px){.lp-grid{grid-template-columns:1fr;}.body-inner{padding-left:20px;}.row{flex-direction:column;gap:2px;}.row .k{flex:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="pin">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#fff"/><circle cx="12" cy="9" r="2.6" fill="#009FD9"/></svg>
+      Preset Jobs · Pro Comms
+    </div>
+    <h1>What goes out to pros — and when</h1>
+    <p>A simple map of every Preset Jobs comm to pros: the launch sends starting <b>July 14</b>, what follows after, who gets each, the channel, and the message. Built for "what are we actually sending?" moments.</p>
+    <div class="meta">
+      <span class="chip">📛 Always "Preset Jobs" (never "TToD")</span>
+      <span class="chip">✉️ Up to 6 emails / pro</span>
+      <span class="chip">🔔 Up to 4 push / pro</span>
+      <span class="chip">📲 Email · In-App · Push</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="tabs">
+      <button class="tab active" data-filter="all">All comms</button>
+      <button class="tab" data-filter="launch">Launch (July 14)</button>
+      <button class="tab" data-filter="evergreen">Evergreen (after)</button>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--c-email)"></i>Email</span>
+      <span><i class="dot" style="background:var(--c-inapp)"></i>In-App</span>
+      <span><i class="dot" style="background:var(--c-push)"></i>Push</span>
+    </div>
+  </div>
+
+  <!-- LAUNCH -->
+  <div class="group-label" data-group="launch">🚀 Launch sequence — manual, GTM-driven (starts July 14)</div>
+
+  <div class="card launch" data-type="launch">
+    <div class="card-head">
+      <div class="num">0</div>
+      <div class="ttl"><h3>Phase 0 — Foundational Introduction</h3><p class="sub">Awareness: "what Preset Jobs are" — before a new category launches</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span><span class="pill push">Push</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">Before launching a partner in a new category. <b>Runs once per category</b> — not repeated per partner.</div></div>
+      <div class="row"><div class="k">Who</div><div class="v">All pros within the occupation/category.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v"><ul><li>What Preset Jobs are</li><li>How they differ from standard marketplace jobs</li><li>High-level how they work → <b>general landing page</b></li></ul></div></div>
+      <div class="row"><div class="k">Notes</div><div class="v">Keep concise. <b>No partner names. No eligibility language.</b></div></div>
+    </div></div>
+  </div>
+
+  <div class="card launch" data-type="launch">
+    <div class="card-head">
+      <div class="num">1</div>
+      <div class="ttl"><h3>Phase 1 — Education / Preparation</h3><p class="sub">"You're eligible + here's how it works" — leading up to launch</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span><span class="pill push">Push</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">Leading up to launch (if not already covered by Phase 0).</div></div>
+      <div class="row"><div class="k">Who</div><div class="v"><b>Eligible pros only</b> within the occupation.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v"><ul><li>You're eligible for these jobs</li><li>What Preset Jobs are + where to find them</li><li>Link to landing page</li></ul></div></div>
+      <div class="row"><div class="k">Notes</div><div class="v">Don't re-explain qualification requirements.</div></div>
+    </div></div>
+  </div>
+
+  <div class="card launch" data-type="launch">
+    <div class="card-head">
+      <div class="num">2</div>
+      <div class="ttl"><h3>Phase 2 — Partner Launch Activation</h3><p class="sub">"This partner is live — go claim jobs"</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span><span class="pill push">Push</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v"><b>Triggered when a specific partner goes live</b> (e.g., Lowe's) — not a fixed date.</div></div>
+      <div class="row"><div class="k">Who</div><div class="v">Eligible pros only within the occupation.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v"><ul><li>Announce the partner</li><li>Confirm eligibility</li><li>Direct to jobs → general LP, or <b>custom partner LP</b> if extra requirements</li></ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="card launch" data-type="launch">
+    <div class="card-head">
+      <div class="num">3</div>
+      <div class="ttl"><h3>Phase 3 — Post-Launch Reinforcement</h3><p class="sub">"Reminder: you're eligible" — shortly after launch</p></div>
+      <div class="pills"><span class="pill push">Push</span><span class="pill inapp">In-App</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">Shortly after launch.</div></div>
+      <div class="row"><div class="k">Who</div><div class="v">Eligible pros only.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v">Reminder of the opportunity → back to landing page.</div></div>
+      <div class="row"><div class="k">Notes</div><div class="v"><b>Push + In-App only</b> (email only if needed).</div></div>
+    </div></div>
+  </div>
+
+  <div class="card launch" data-type="launch">
+    <div class="card-head">
+      <div class="num">+</div>
+      <div class="ttl"><h3>One-time send — Non-eligible pros</h3><p class="sub">So we reach the whole category, not just the eligible half</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">Once, at launch.</div></div>
+      <div class="row"><div class="k">Who</div><div class="v"><b>Non-eligible pros</b> in the category (added per Connor's review).</div></div>
+      <div class="row"><div class="k">Message</div><div class="v">Same evergreen "new pro intro" creative — introduces the opportunity + how to qualify → general LP.</div></div>
+      <div class="row"><div class="k">Why</div><div class="v">If ~50% of a category is eligible, this covers the other half so leadership sees the full base was reached.</div></div>
+    </div></div>
+  </div>
+
+  <!-- EVERGREEN -->
+  <div class="group-label" data-group="evergreen">♻️ Evergreen — automated, always-on (ongoing after launch)</div>
+
+  <div class="card evergreen" data-type="evergreen">
+    <div class="card-head">
+      <div class="num">T1</div>
+      <div class="ttl"><h3>Trigger 1 — New Pro Introduction</h3><p class="sub">"Here's an opportunity to aim for" — for new pros</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">1–2 weeks after activation (aligned to EMR).</div></div>
+      <div class="row"><div class="k">Who</div><div class="v">New pros in Preset Jobs-relevant categories.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v"><ul><li>Introduce the Preset Jobs opportunity</li><li>Outline eligibility requirements</li><li>Link to general LP</li></ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="card evergreen" data-type="evergreen">
+    <div class="card-head">
+      <div class="num">T2</div>
+      <div class="ttl"><h3>Trigger 2 — Eligibility Achievement</h3><p class="sub">"Congrats — you now qualify"</p></div>
+      <div class="pills"><span class="pill email">Email</span><span class="pill inapp">In-App</span></div>
+      <svg class="caret" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="body"><div class="body-inner">
+      <div class="row"><div class="k">When</div><div class="v">The moment a pro meets <b>all</b> eligibility criteria.</div></div>
+      <div class="row"><div class="k">Who</div><div class="v">Pros who just qualified.</div></div>
+      <div class="row"><div class="k">Message</div><div class="v"><ul><li>Congrats — you qualify (congratulatory tone; these jobs are exclusive to Thumbtack)</li><li>Next steps to review jobs</li><li>Link to general LP (or partner-specific if required)</li></ul></div></div>
+    </div></div>
+  </div>
+
+  <!-- VALUE PROPS -->
+  <div class="panel">
+    <h2><span class="bar"></span>What every comm reinforces — "How Preset Jobs are different"</h2>
+    <div class="vp-grid">
+      <div class="vp"><b>No bidding, no lead fees</b><span>Customers already submitted the job — pros just claim it.</span></div>
+      <div class="vp"><b>Guaranteed, transparent earnings</b><span>Know the payout before accepting ($50–$500 per job).</span></div>
+      <div class="vp"><b>Steady stream of jobs</b><span>High volume to keep a pro's schedule full.</span></div>
+      <div class="vp"><b>Flexible scheduling</b><span>Claim only the jobs that fit your calendar.</span></div>
+      <div class="vp"><b>Exclusive access for Top Pros</b><span>Available only to qualified Thumbtack pros.</span></div>
+    </div>
+  </div>
+
+  <!-- ELIGIBILITY + LP -->
+  <div class="panel">
+    <h2><span class="bar"></span>Eligibility (paired with every "you qualify" message)</h2>
+    <div class="elig">
+      <span class="tag">★ 4.5+ star rating</span>
+      <span class="tag">3+ Thumbtack-generated reviews</span>
+      <span class="tag">Completed background check</span>
+      <span class="tag">Targeting ON in the category</span>
+    </div>
+    <div class="lp-grid" style="margin-top:16px">
+      <div class="vp"><b>General landing page (source of truth)</b><span>What Preset Jobs are, how to claim, eligibility. Destination for Phase 0–3 + evergreen.</span></div>
+      <div class="vp"><b>Custom partner landing page</b><span>For partners with extra requirements (e.g., Lowe's = license upload). General content + partner-specific steps.</span></div>
+    </div>
+    <div class="callout"><b>Naming guardrail:</b> all pro-facing comms say <b>"Preset Jobs."</b> "TToD" / "Thumbtack on Demand" never appear in pro-facing copy.</div>
+  </div>
+
+  <footer>
+    Source: Preset Jobs Comms Strategy (approved). &nbsp;·&nbsp; Brand colors/font are an approximation of Thumbtack styling — swap for official brand tokens if needed. &nbsp;·&nbsp; Pro launch comms align to the July 14 in-product flip; PR / internal announcement is July 15.
+  </footer>
+
+</div>
+
+<script>
+  // Accordion
+  document.querySelectorAll('.card-head').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const card=h.parentElement, body=h.nextElementSibling;
+      const open=card.classList.toggle('open');
+      body.style.maxHeight = open ? body.scrollHeight+'px' : 0;
+    });
+  });
+  // Filter tabs
+  const tabs=document.querySelectorAll('.tab');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const f=t.dataset.filter;
+    document.querySelectorAll('.card').forEach(c=>{
+      c.style.display = (f==='all'||c.dataset.type===f) ? '' : 'none';
+    });
+    document.querySelectorAll('.group-label').forEach(g=>{
+      g.style.display = (f==='all'||g.dataset.group===f) ? '' : 'none';
+    });
+  }));
+</script>
+</body>
+</html>
